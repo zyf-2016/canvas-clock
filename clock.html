@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#mycanvas{
+				margin: 0 auto;
+				border: 1px solid green;
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="mycanvas" width="800" height="600"></canvas>
+		
+		<script type="text/javascript">
+			var c=document.querySelector('#mycanvas');
+			var cxt=c.getContext('2d');
+			function drawClock(){
+				//清除画布
+				cxt.clearRect(0,0,800,600);
+				var date=new Date();
+				var sec=date.getSeconds();
+				var min=date.getMinutes()+sec/60;
+				var hour=date.getHours()%12+min/60;
+				cxt.strokeStyle="#0000FF";
+				cxt.lineWidth=10;
+				cxt.beginPath();
+				cxt.arc(400,300,200,0,Math.PI*2,false);
+				cxt.closePath();
+				cxt.stroke();
+				
+				
+				for(var i=0;i<12;i++)
+				{
+					cxt.save();
+					cxt.lineWidth=6;
+					cxt.strokeStyle="#000000";
+					//设置00点
+					cxt.translate(400,300);
+					//设置旋转角度
+					cxt.rotate(Math.PI*i*30/180)
+					cxt.beginPath();
+					cxt.moveTo(0,-170);
+					cxt.lineTo(0,-190)
+					cxt.stroke();
+					cxt.closePath();
+					cxt.restore();
+					
+				}
+				
+				for(var i=0;i<60;i++)
+				{
+					cxt.save();
+					cxt.lineWidth=4;
+					cxt.strokeStyle="#000000";
+					cxt.translate(400,300);
+					cxt.rotate(Math.PI*i*6/180);
+					cxt.beginPath();
+					cxt.moveTo(0,-180);
+					cxt.lineTo(0,-190);
+					cxt.closePath();
+					cxt.stroke();
+					cxt.restore();
+				}
+				
+				//时针
+				cxt.save();
+				cxt.lineWidth=8;
+				cxt.strokeStyle="#000000";
+				cxt.translate(400,300);
+				cxt.rotate(Math.PI*hour*30/180);
+				cxt.beginPath();
+				cxt.moveTo(0,-100);
+				cxt.lineTo(0,10);
+				cxt.closePath();
+				cxt.stroke();
+				cxt.restore();
+				
+				//分针
+				cxt.save();
+				cxt.lineWidth=6;
+				cxt.strokeStyle="#000000";
+				cxt.translate(400,300);
+				cxt.rotate(Math.PI*min*6/180);
+				cxt.beginPath();
+				cxt.moveTo(0,-140);
+				cxt.lineTo(0,14);
+				cxt.closePath();
+				cxt.stroke();
+				cxt.restore();
+				
+				//秒针
+				cxt.save();
+				cxt.lineWidth=4;
+				cxt.strokeStyle="#FF0000";
+				cxt.translate(400,300);
+				cxt.rotate(Math.PI*sec*6/180);
+				cxt.beginPath();
+				cxt.moveTo(0,-170);
+				cxt.lineTo(0,18);
+				cxt.closePath();
+				cxt.stroke();
+				//绘制中心点
+				cxt.beginPath();
+				cxt.arc(0,0,6,0,2*Math.PI,false);
+				cxt.closePath();
+				cxt.fillStyle="#000000";
+				cxt.fill();
+				cxt.strokeStyle="red";
+				cxt.stroke();
+				
+				//绘制秒针上的小圆点
+				cxt.beginPath();
+				cxt.arc(0,-150,6,0,2*Math.PI,false);
+				cxt.closePath();
+				cxt.fillStyle="#000000";
+				cxt.fill();
+				cxt.strokeStyle="red";
+				cxt.stroke();
+				
+				cxt.restore();
+			}
+			setInterval(drawClock,1000);
+		</script>
+	</body>
+</html>
